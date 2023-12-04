@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class GlobalData {
     public static HashMap<Coin, Integer> coinInteger = new HashMap<>();
+    public static HashMap<Coin, Integer> coinIntegerByOtherClients = new HashMap<>();
     public static Set<Coin> coins;
     public static Set<Client> clients = new HashSet<>();
     static Wallet wallet = new Wallet();

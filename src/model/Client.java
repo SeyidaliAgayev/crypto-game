@@ -4,6 +4,7 @@ public class Client {
     private int id;
     private String name;
     private Wallet wallet;
+    private boolean hasCoin;
 
     public Client(int id, String name, Wallet wallet) {
         this.id = id;
@@ -36,6 +37,14 @@ public class Client {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+
+    public boolean isHasCoin() {
+        return hasCoin;
+    }
+
+    public void setHasCoin(boolean hasCoin) {
+        this.hasCoin = hasCoin;
     }
 
     @Override

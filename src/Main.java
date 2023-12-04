@@ -1,5 +1,3 @@
-import data.GlobalData;
-import model.Client;
 import service.ManagementService;
 import service.impl.ManagementServiceImpl;
 
@@ -14,9 +12,14 @@ public class Main {
          deye bir seçim OLMASIN!!! və 1 bit coin almaga balanasi çatırsa onu alsın ve oyunu qazansın) İstifadeçi 5 saniyeden 1 coin ala biiler
          ama satmaq hissesinde ise limit yoxdur istediyi zaman istediyi qeder coini sata biler . BU zaman clientin hesabindan hemin
          coinler silinmelidir !)
+
+         Her client ucun elave hashMap yaratmaq lazimdir!
          */
         ManagementService managementService = new ManagementServiceImpl();
         managementService.manageClient();
-        managementService.manageOtherClients();
+        managementService.manageBuyByOtherAutomatedClients();
+        managementService.manageSellByOtherAutomatedClients();
+        managementService.shutdownExecutorService();
+
     }
 }
