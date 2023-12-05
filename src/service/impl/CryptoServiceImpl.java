@@ -2,14 +2,15 @@ package service.impl;
 import data.GlobalData;
 import model.Client;
 import model.Coin;
-import model.Wallet;
 import service.CryptoService;
+
 
 
 import java.util.HashMap;
 
 
 
+import static data.GlobalData.client;
 import static helper.PriceChanger.*;
 
 import static util.InputUtil.*;
@@ -28,9 +29,9 @@ public class CryptoServiceImpl implements CryptoService {
             if (client1.getName().equals(clientName)) {
                 String selectedCoin = inputRequiredString("Which coin do you want to buy? ");
                 for (Coin coin : GlobalData.coins) {
-                    if (coin.getType().equals(selectedCoin)) {
+                    if (coin.getType().equalsIgnoreCase(selectedCoin)) {
                         int coinQuantity = inputRequiredInt("How many coin do you want to buy? ");
-                        if (client.getWallet().getAmount() > coin.getCurrency()) {
+                        if (client.getWallet().getAmount() > coin.getCurrency() * coinQuantity) {
                             priceChangerWhenBuy(coinQuantity, coin);
                             client.getWallet().setAmount(client.getWallet().getAmount() - (coin.getCurrency() * coinQuantity));
                             System.out.println("Your wallet amount after bought: " + client.getWallet().getAmount());
@@ -50,10 +51,10 @@ public class CryptoServiceImpl implements CryptoService {
         String clientName = inputRequiredString("Enter client's name: ");
         for (Client client1 : GlobalData.clients) {
             if (client1.getName().equals(clientName)) {
-                seeMyCoins();
+//                seeMyCoins();
                 String sellCoin = inputRequiredString("Which coin do you want to sell? ");
                 for (Coin coin : GlobalData.coins) {
-                    if (coin.getType().equals(sellCoin)) {
+                    if (coin.getType().equals(sellCoin.toLowerCase())) {
                         int sellQuantity = inputRequiredInt("How many coin do you want to sell? ");
                         if (sellQuantity > 6) {
                             System.err.println("You can not sell more than 6 coins!!!");
@@ -73,14 +74,24 @@ public class CryptoServiceImpl implements CryptoService {
         }
     }
 
-    @Override
-    public HashMap<Coin, Integer> seeOtherClientsCoins() {
-        for (Coin coin : GlobalData.coinIntegerByOtherClients.keySet()) {
-            int quantity = GlobalData.coinIntegerByOtherClients.get(coin);
-            System.out.println("Coin: " + coin.getType() + "\n" +
-                    "Quantity: " + quantity);
+    public void seeOtherClientsCoins() {
+        for (Client allClients : GlobalData.clients) {
+            System.out.println("All clients: " + allClients);
+            String clientName = inputRequiredString("Enter client's name: ");
+
+            if (allClients.getName().equals(clientName)) {
+                for (String threadName : GlobalData.threadClients.keySet()) {
+                    Client threadClient = GlobalData.threadClients.get(threadName);
+
+                    System.out.println("Thread Name: " + threadName);
+                    System.out.println("Client ID: " + client.getId());
+                    System.out.println("Client Name: " + client.getName());
+                    System.out.println("Coin type: " + threadClient.getWallet().getCoins());
+                    System.out.println("Quantity: " + threadClient.getWallet().getAmount());
+                }
+
+            }
         }
-        return null;
     }
 
     @Override
@@ -95,7 +106,7 @@ public class CryptoServiceImpl implements CryptoService {
                     }
                 }
             } else {
-                System.err.println("There is no any coin in your acoount yet!!!");
+                System.err.println("There is no any coin in your account yet!!!");
             }
         }
         return null;

@@ -1,6 +1,7 @@
 package helper;
 
 import data.GlobalData;
+import model.Client;
 import model.Coin;
 
 import java.util.ArrayList;
@@ -13,6 +14,12 @@ public class RandomCoinGenerator {
         Random random = new Random();
         return coinList.get(random.nextInt(coinList.size()));
     }
+    public static Client getRandomClient() {
+        List<Client> clientList = new ArrayList<>(GlobalData.clients);
+        Random random = new Random();
+        return clientList.get(random.nextInt(clientList.size()));
+    }
+
 
     public static int getRandomQuantity() {
         Random random = new Random();

@@ -1,9 +1,8 @@
 package service;
 
+import model.Client;
+
 public interface ManagementService {
     void manageClient();
-    void manageBuyByOtherAutomatedClients();
-    void manageSellByOtherAutomatedClients();
-    void shutdownExecutorService();
 
 }

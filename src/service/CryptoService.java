@@ -10,6 +10,8 @@ public interface CryptoService {
     void buyCoin(Client client);
     void sellCoin(Client client);
     void seeCurrency();
-    HashMap<Coin, Integer> seeOtherClientsCoins();
+//    HashMap<Coin, Integer> seeOtherClientsCoins();
+    void seeOtherClientsCoins();
+
     HashMap<Coin, Integer> seeMyCoins();
 }

@@ -1,27 +1,25 @@
 package service.impl;
 
 import data.GlobalData;
+import model.Client;
 import model.Coin;
 import service.CryptoService;
 import service.ManagementService;
 
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static data.GlobalData.*;
 import static helper.RandomCoinGenerator.*;
 import static helper.PriceChanger.*;
 
 
-import static data.GlobalData.client;
 import static util.MenuUtil.*;
 
 public class ManagementServiceImpl implements ManagementService {
    private final CryptoService cryptoService = new CryptoServiceImpl();
-   private final ExecutorService executorService = Executors.newFixedThreadPool(3);
-
-
     public void manageClient() {
-        executorService.submit(() -> {
             while (true) {
                 int option = entryMenu();
                 switch (option) {
@@ -44,49 +42,5 @@ public class ManagementServiceImpl implements ManagementService {
                         System.err.println("Invalid Option!");
                 }
             }
-        });
     }
-
-    public void manageBuyByOtherAutomatedClients() {
-        executorService.submit(() -> {
-            while (!Thread.interrupted()) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                Coin randomBuyCoin = getRandomCoin();
-                int randomBuyQuantity = getRandomQuantity();
-                if (randomBuyQuantity >= 5) {
-                    priceChangerWhenBuy(randomBuyQuantity, randomBuyCoin);
-                }
-                GlobalData.coinIntegerByOtherClients.put(randomBuyCoin, randomBuyQuantity);
-            }
-        });
-    }
-
-    public void manageSellByOtherAutomatedClients() {
-        executorService.submit(() -> {
-            while (!Thread.interrupted()) {
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                Coin randomSellCoin = getRandomCoin();
-                int randomSellQuantity = getRandomQuantity();
-                if (randomSellQuantity >= 5) {
-                    priceChangerWhenSell(randomSellQuantity, randomSellCoin);
-                }
-                GlobalData.coinIntegerByOtherClients.remove(randomSellCoin, randomSellQuantity);
-            }
-        });
-    }
-
-    @Override
-    public void shutdownExecutorService() {
-        executorService.shutdown();
-    }
-
-
 }

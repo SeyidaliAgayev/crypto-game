@@ -3,18 +3,25 @@ package data;
 import model.Client;
 import model.Coin;
 import model.Wallet;
+import service.ExecutorManagementService;
+import service.impl.ExecutorManagementServiceImpl;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class GlobalData {
     public static HashMap<Coin, Integer> coinInteger = new HashMap<>();
     public static HashMap<Coin, Integer> coinIntegerByOtherClients = new HashMap<>();
+    public static HashMap<String, HashMap<Coin, Integer>> threadDataMap = new HashMap<>();
+    public static HashMap<String, Client> threadClients = new HashMap<>();
+
     public static Set<Coin> coins;
     public static Set<Client> clients = new HashSet<>();
     static Wallet wallet = new Wallet();
     public static Client client = new Client(1, "Ali", wallet);
+
 
     static {
         clients.add(client);
